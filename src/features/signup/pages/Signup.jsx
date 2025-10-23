@@ -1,35 +1,31 @@
 import { useState } from "react";
-import { Form } from "../../../shared/ui/form/Form";
-import { signup } from "../../../services/apiLogin";
+import { useSignup } from "../hooks/useSignup";
 
-import { useNavigate } from "react-router";
+import { Form } from "../../../shared/ui/form/Form";
+import { Spinner } from "../../../shared/ui/Spinner";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const navigate = useNavigate();
+  const [isLoading, handleSignUp] = useSignup();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password || !confirmPassword) return;
     if (password !== confirmPassword) return;
 
-    async function handleSignup() {
-      await signup(email, password);
+    handleSignUp(email, password);
 
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-
-      navigate("/login");
-    }
-
-    handleSignup();
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
   }
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <Form
       onSubmit={handleSubmit}
       title="Sign Up"

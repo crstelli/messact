@@ -1,31 +1,28 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 
-import { login } from "../../../services/apiLogin";
+import { useLogin } from "../hooks/useLogin";
+
 import { Form } from "../../../shared/ui/form/Form";
+import { Spinner } from "../../../shared/ui/Spinner";
 
 function Login() {
   const [email, setEmail] = useState("giuseppe@crescitelli.it");
   const [password, setPassword] = useState("ciao1234");
 
-  const navigate = useNavigate();
+  const [isLoading, handleLogin] = useLogin();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
 
-    async function handleLogin() {
-      await login(email, password);
-      navigate("/chats/global");
-    }
-
-    handleLogin();
-
+    handleLogin(email, password);
     setEmail("");
     setPassword("");
   }
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <Form
       title="Log In"
       onSubmit={handleSubmit}
