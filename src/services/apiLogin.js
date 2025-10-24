@@ -9,8 +9,16 @@ export async function login(email, password) {
   if (error) throw error;
 }
 
-export async function signup(email, password) {
-  const { error } = await supabase.auth.signUp({ email, password });
+export async function signup(email, password, username) {
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: username,
+      },
+    },
+  });
 
   if (error) throw error;
 }
@@ -24,4 +32,12 @@ export async function getUser() {
   if (error) throw error;
 
   return user;
+}
+
+export async function updateUsername(username) {
+  const { error } = await supabase.auth.updateUser({
+    data: { full_name: username },
+  });
+
+  if (error) throw error;
 }

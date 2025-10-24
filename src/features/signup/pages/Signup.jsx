@@ -6,6 +6,7 @@ import { Spinner } from "../../../shared/ui/Spinner";
 
 function SignUp() {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -13,12 +14,13 @@ function SignUp() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!email || !password || !confirmPassword) return;
+    if (!email || !password || !confirmPassword || !username) return;
     if (password !== confirmPassword) return;
 
-    handleSignUp(email, password);
+    handleSignUp(email, password, username);
 
     setEmail("");
+    setUsername("");
     setPassword("");
     setConfirmPassword("");
   }
@@ -37,6 +39,14 @@ function SignUp() {
         onChange={(e) => setEmail(e.target.value)}
         id="email"
         type="email"
+      />
+
+      <Form.Label htmlFor="id">Username</Form.Label>
+      <Form.Input
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        id="username"
+        type="username"
       />
 
       <Form.Label htmlFor="password">Password</Form.Label>

@@ -15,12 +15,15 @@ export async function fetchUsername(chatId) {
 }
 
 export async function sendMessage(content, chatId) {
-  const userId = (await getUser()).id;
+  const {
+    id: userId,
+    user_metadata: { full_name },
+  } = await getUser();
 
   if (chatId === "global") {
     const { error } = await supabase
       .from("global")
-      .insert([{ sent_by: userId, content }])
+      .insert([{ sent_by: userId, content, sent_by_username: full_name }])
       .select();
 
     if (error) throw error;

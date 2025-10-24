@@ -7,11 +7,11 @@ function useSignup() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  async function handleSignUp(email, password) {
+  async function handleSignUp(email, password, username) {
     setIsLoading(true);
 
     try {
-      await signup(email, password);
+      await signup(email, password, username);
       navigate("/login");
     } catch (error) {
       console.log(error);
