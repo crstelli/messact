@@ -6,7 +6,7 @@ import { Submit } from "./components/Submit";
 
 function Form({ children, title, alt, onSubmit }) {
   return (
-    <div className="flex flex-col gap-2 rounded-md bg-slate-900 p-4">
+    <div className="flex w-[90%] max-w-[300px] flex-col gap-2 rounded-md bg-slate-900 p-4">
       <h1 className="text-center text-xl font-bold">{title}</h1>
       <form onSubmit={onSubmit} className="flex flex-col gap-1">
         {children}

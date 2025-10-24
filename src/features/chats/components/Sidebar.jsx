@@ -3,7 +3,7 @@ import { Button } from "../../../shared/ui/Button";
 
 function Sidebar() {
   return (
-    <div className="row-span-2 flex h-full w-full flex-col gap-3 bg-neutral-900/90 p-4 text-neutral-300">
+    <div className="row-span-2 hidden h-full w-full flex-col gap-3 bg-neutral-900/90 p-4 text-neutral-300">
       <h1>Messact</h1>
       <div className="flex items-center gap-2 rounded-full bg-neutral-800 px-4 py-2 text-sm font-light text-neutral-500">
         <Search size={18} />
