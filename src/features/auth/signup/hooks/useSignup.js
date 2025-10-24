@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import { signup } from "../../../services/apiLogin";
+import { signup as signupApi } from "../../../../services/apiAuth";
 
 function useSignup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +11,7 @@ function useSignup() {
     setIsLoading(true);
 
     try {
-      await signup(email, password, username);
+      await signupApi(email, password, username);
       navigate("/login");
     } catch (error) {
       console.log(error);

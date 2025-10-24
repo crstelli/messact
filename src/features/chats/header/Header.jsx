@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchUsername } from "../../../services/apiChat";
 
 import { Phone } from "lucide-react";
 
@@ -10,7 +9,7 @@ function Header() {
 
   useEffect(() => {
     async function getUsername() {
-      const data = await fetchUsername(id);
+      const data = "Global Chat";
       setUsername(data);
     }
 

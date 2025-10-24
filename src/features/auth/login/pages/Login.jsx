@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { useLogin } from "../hooks/useLogin";
 
-import { Form } from "../../../shared/ui/form/Form";
-import { Spinner } from "../../../shared/ui/Spinner";
+import { Form } from "../../../../shared/ui/form/Form";
+import { Spinner } from "../../../../shared/ui/Spinner";
 
 function Login() {
   const [email, setEmail] = useState("giuseppe@crescitelli.it");
