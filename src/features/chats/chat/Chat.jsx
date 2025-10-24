@@ -19,7 +19,7 @@ function Chat() {
   }
 
   return (
-    <div className="flex h-full flex-col overflow-auto p-4">
+    <div className="flex h-full flex-col p-4">
       <List />
       <form
         onSubmit={handleSendMessage}
