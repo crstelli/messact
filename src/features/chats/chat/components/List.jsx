@@ -26,6 +26,7 @@ function List() {
 
   return (
     <div className="flex grow flex-col gap-2">
+      <SentMessage key={251}>per il content?</SentMessage>
       {messages.map((m) => {
         return m.sent_by === id ? (
           <SentMessage key={m.id}>{m.content}</SentMessage>
