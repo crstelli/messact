@@ -13,15 +13,17 @@ function List() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    async function fetchChat() {
+    let channel;
+    (async function fetchChat() {
       const data = await fetchMessages(chatId);
       setMessages(data);
 
-      const channel = syncChat(chatId, setMessages);
-      return () => channel.unsubscribe(); // Non sono sicuro funzioni, ma sembra andare (cleanup function)
-    }
+      channel = syncChat(chatId, setMessages);
+    })(); // IIFE
 
-    return () => fetchChat();
+    return () => {
+      if (channel) channel.unsubscribe();
+    };
   }, [chatId]);
 
   return (
