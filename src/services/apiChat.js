@@ -52,7 +52,7 @@ export async function sendMessage(content, chatId) {
 }
 
 export function syncChat(chatId, setChat) {
-  if (chatId === "global")
+  if (chatId === "global") {
     return supabase
       .channel("custom-all-channel")
       .on(
@@ -63,7 +63,7 @@ export function syncChat(chatId, setChat) {
         },
       )
       .subscribe();
-  else {
+  } else {
     return supabase
       .channel("custom-all-channel")
       .on(
