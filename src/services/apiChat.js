@@ -76,16 +76,3 @@ export function syncChat(chatId, setChat) {
       .subscribe();
   }
 }
-
-export async function getPrivateChats() {
-  const userId = (await getUser()).id;
-
-  const { data, error } = await supabase
-    .from("messages")
-    .select("*")
-    .eq("sent_to", userId);
-
-  if (error) throw error;
-
-  return { data };
-}

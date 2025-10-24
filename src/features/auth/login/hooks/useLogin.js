@@ -12,7 +12,7 @@ function useLogin() {
 
     try {
       await loginApi(email, password);
-      navigate("/chats/global");
+      navigate("/chats");
     } catch (error) {
       console.log(error);
     } finally {

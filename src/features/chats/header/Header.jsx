@@ -1,23 +1,12 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-
-import { Phone } from "lucide-react";
+import { useHeader } from "./hooks/useHeader";
+import { Phone, ArrowLeft } from "lucide-react";
 
 function Header() {
-  const [username, setUsername] = useState("");
-  const { id } = useParams();
-
-  useEffect(() => {
-    async function getUsername() {
-      const data = "Global Chat";
-      setUsername(data);
-    }
-
-    getUsername();
-  }, [id]);
+  const [username, id] = useHeader();
 
   return (
-    <div className="flex items-center justify-between border-b border-slate-500 px-10 py-4">
+    <div className="grid grid-cols-[auto_1fr_auto] items-center justify-between border-b border-slate-500 p-4">
+      <ArrowLeft className="size-8 rounded-full bg-slate-700 p-1" />
       <span className="flex items-center justify-center gap-2">
         <div className="size-10 rounded-full bg-sky-200"></div>
         <h2 className="text-xl">{username}</h2>

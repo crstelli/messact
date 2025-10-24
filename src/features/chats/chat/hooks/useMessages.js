@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
 
-import { fetchMessages, syncChat } from "../../../services/apiChat";
-import { getUser } from "../../../services/apiAuth";
+import { fetchMessages, syncChat } from "../../../../services/apiChat";
+import { getUser } from "../../../../services/apiAuth";
 
 function useMessages() {
   const [isLoading, setIsLoading] = useState(false);

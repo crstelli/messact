@@ -19,13 +19,13 @@ function Typing() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex rounded-lg bg-neutral-950/70 px-4 py-2"
+      className="grid grid-cols-[1fr_auto] rounded-lg bg-neutral-950/70 px-4 py-2"
     >
       <input
         value={typing}
         onChange={(e) => setTyping(e.target.value)}
         type="text"
-        className="grow focus:outline-none"
+        className="w-full focus:outline-none"
         placeholder="Send a message"
       />
       <button type="submit">

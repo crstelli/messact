@@ -1,4 +1,4 @@
-import { useMessages } from "../useMessages";
+import { useMessages } from "../hooks/useMessages";
 
 import { ReceivedMessage } from "./ReceivedMessage";
 import { SentMessage } from "./SentMessage";
