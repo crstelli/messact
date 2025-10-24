@@ -25,7 +25,7 @@ function List() {
   }, [chatId]);
 
   return (
-    <div className="flex grow flex-col gap-2 overflow-y-auto">
+    <div className="flex grow flex-col gap-2">
       {messages.map((m) => {
         return m.sent_by === id ? (
           <SentMessage key={m.id}>{m.content}</SentMessage>
