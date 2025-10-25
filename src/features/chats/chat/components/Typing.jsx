@@ -19,7 +19,7 @@ function Typing() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid grid-cols-[1fr_auto] rounded-lg bg-neutral-950/70 px-4 py-2"
+      className="group grid grid-cols-[1fr_auto] rounded-lg bg-neutral-950/50 px-4 py-2 focus-within:bg-neutral-950/70"
     >
       <input
         value={typing}
@@ -28,7 +28,10 @@ function Typing() {
         className="w-full focus:outline-none"
         placeholder="Send a message"
       />
-      <button type="submit">
+      <button
+        type="submit"
+        className="duration-100 group-not-focus-within:opacity-0 group-focus-within:opacity-100"
+      >
         <SendHorizonal className="cursor-pointer" />
       </button>
     </form>

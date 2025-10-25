@@ -1,4 +1,5 @@
 import { useMessages } from "../hooks/useMessages";
+import { formateDate } from "../../../../shared/utils/formatDate";
 
 import { ReceivedMessage } from "./ReceivedMessage";
 import { SentMessage } from "./SentMessage";
@@ -8,7 +9,7 @@ function Messages() {
   const [isLoading, messages, user] = useMessages();
 
   return (
-    <div className="flex grow flex-col gap-2">
+    <div className="flex grow flex-col gap-2 overflow-y-auto pr-2 pb-2">
       {isLoading ? (
         <div className="flex grow items-center justify-center">
           <Spinner />
@@ -16,9 +17,15 @@ function Messages() {
       ) : (
         messages.map((m) => {
           return m.sent_by === user.id ? (
-            <SentMessage key={m.id}>{m.content}</SentMessage>
+            <SentMessage time={formateDate(m.created_at)} key={m.id}>
+              {m.content}
+            </SentMessage>
           ) : (
-            <ReceivedMessage author={m.sent_by_username} key={m.id}>
+            <ReceivedMessage
+              time={formateDate(m.created_at)}
+              author={m.sent_by_username}
+              key={m.id}
+            >
               {m.content}
             </ReceivedMessage>
           );

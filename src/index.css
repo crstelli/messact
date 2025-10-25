@@ -6,3 +6,15 @@ body,
 #root {
   @apply min-h-screen w-screen font-[Inter];
 }
+
+*::-webkit-scrollbar {
+  @apply w-[10px];
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-700;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-800;
+}

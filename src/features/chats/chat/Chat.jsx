@@ -7,7 +7,7 @@ function Chat() {
   const { id } = useParams();
 
   return (
-    <div className="flex h-full flex-col p-4">
+    <div className="flex h-full flex-col overflow-y-auto p-4">
       {id ? (
         <>
           <Messages />

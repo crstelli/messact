@@ -129,6 +129,10 @@ export async function syncConversations(setChats) {
 export async function createConversation(friendId) {
   const userId = (await getUser()).id;
 
+  if (userId === friendId) {
+    throw new Error("You cannot chat with yourself");
+  }
+
   const [user_1, user_2] =
     userId < friendId ? [userId, friendId] : [friendId, userId];
   const { data, error } = await supabase
