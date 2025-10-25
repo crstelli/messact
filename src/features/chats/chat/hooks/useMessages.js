@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
 
-import { fetchMessages, syncChat } from "../../../../services/apiChat";
+import { fetchMessages, syncMessages } from "../../../../services/apiChat";
 import { getUser } from "../../../../services/apiAuth";
 
 function useMessages() {
@@ -30,7 +30,7 @@ function useMessages() {
 
   useEffect(() => {
     // Non so perché abbia dovuto creare due effetti distinti
-    channelRef.current = syncChat(chatId, setMessages);
+    channelRef.current = syncMessages(chatId, setMessages);
 
     return () => {
       if (channelRef.current) channelRef.current.unsubscribe();

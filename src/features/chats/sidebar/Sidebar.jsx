@@ -1,12 +1,54 @@
-import { Search } from "lucide-react";
-import { Button } from "../../../shared/ui/Button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import {
+  createConversation,
+  fetchConversations,
+  syncConversations,
+} from "../../../services/apiChat";
 
-import { useNavigate } from "react-router";
+import { ChatElement } from "./components/ChatElement";
+import { Button } from "../../../shared/ui/Button";
+
+import { Search } from "lucide-react";
+import { Modal } from "../../../shared/ui/Modal";
+import { AddFriendForm } from "./components/AddFriendForm";
 
 function Sidebar() {
-  const [chats, setChats] = useState([1, 2, 3]);
-  const navigate = useNavigate();
+  const [chats, setChats] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const chatsChannel = useRef(null);
+
+  useEffect(() => {
+    (async function () {
+      try {
+        const data = await fetchConversations(setChats);
+        setChats(data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async function () {
+      chatsChannel.current = await syncConversations(setChats);
+    })();
+
+    return () => {
+      if (chatsChannel.current) {
+        chatsChannel.current.unsubscribe();
+      }
+    };
+  }, []);
+
+  function handleModal() {
+    setShowModal((mod) => !mod);
+  }
+
+  function handleAddFriend(friendId) {
+    createConversation(friendId);
+    setShowModal(false);
+  }
 
   return (
     <div className="row-span-2 flex h-full w-full flex-col gap-3 bg-neutral-900/90 p-4 text-neutral-300">
@@ -26,21 +68,21 @@ function Sidebar() {
         </span>
       </div>
       <div className="flex grow flex-col gap-4">
+        <ChatElement key={"global"} username={"Global Chat"} uuid="global" />
+        <hr className="text-slate-700" />
         {chats.length > 0 &&
-          chats.map((c) => (
-            <ChatElement key={Math.random()} username={"Test"} />
+          chats.map((chat) => (
+            <ChatElement key={chat.id} username={"Username"} uuid={chat.id} />
           ))}
-        <Button classes={"mt-auto"}>Add a friend</Button>
+        {showModal && (
+          <Modal onClose={handleModal}>
+            <AddFriendForm onSubmit={handleAddFriend} />
+          </Modal>
+        )}
+        <Button onClick={handleModal} classes={"mt-auto"}>
+          Add a friend
+        </Button>
       </div>
-    </div>
-  );
-}
-
-function ChatElement({ username }) {
-  return (
-    <div className="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-x-3 text-sm">
-      <div className="size-10 rounded-full bg-sky-200"></div>
-      <h4 className="font-semibold">{username}</h4>
     </div>
   );
 }
