@@ -1,9 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
 import { Main } from "./components/Main";
-
-import { DesktopHome } from "./features/home/DesktopHome";
-import { MobileHome } from "./features/home/MobileHome";
+import { Home } from "./features/home/Home";
+import { ChatSection } from "./features/home/ChatSection";
 
 import { Login } from "./features/auth/Login";
 import { SignUp } from "./features/auth/Signup";
@@ -18,8 +17,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
 
-          <Route path="/chats" element={<MobileHome />} />
-          <Route path="/chats/:id" element={<DesktopHome />} />
+          <Route path="/chats" element={<Home />} />
+          <Route path="chats/:id" element={<ChatSection />} />
         </Routes>
       </Main>
     </BrowserRouter>

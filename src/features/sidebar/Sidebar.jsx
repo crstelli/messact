@@ -9,13 +9,13 @@ import { Button } from "../../components/Button";
 import { Modal } from "../../components/Modal";
 import { Logo } from "../../components/Logo";
 
-function Sidebar({ hidden }) {
+function Sidebar({ classes }) {
   const { conversations, showModal, openModal, closeModal, handleAddFriend } =
     useSidebar();
 
   return (
     <div
-      className={`row-span-2 flex h-full w-full flex-col gap-3 bg-neutral-900/90 p-4 text-neutral-300 ${hidden ? "max-sm:hidden" : null}`}
+      className={`row-span-2 flex h-full w-full flex-col gap-3 bg-neutral-900/90 p-4 text-neutral-300 ${classes}`}
     >
       <Logo />
       <SearchBar />
