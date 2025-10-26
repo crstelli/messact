@@ -1,15 +1,24 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { Toaster } from "react-hot-toast";
 
 import { Main } from "./components/Main";
-import { Home } from "./features/home/Home";
-import { ChatSection } from "./features/home/ChatSection";
-
 import { Login } from "./features/auth/Login";
 import { SignUp } from "./features/auth/Signup";
+import { Home } from "./features/home/Home";
+import { ChatSection } from "./features/home/ChatSection";
 
 export default function App() {
   return (
     <BrowserRouter>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            backgroundColor: "#334155",
+            color: "#e2e8f0",
+          },
+        }}
+      />
       <Main>
         <Routes>
           <Route index element={<Navigate to="/login" />} />

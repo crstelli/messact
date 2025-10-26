@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 
 import { fetchMessages, syncMessages } from "../../lib/apiChat";
 import { getUser } from "../../lib/apiAuth";
+import toast from "react-hot-toast";
 
 function useMessages() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +22,7 @@ function useMessages() {
         setMessages(messages);
         setUser(await getUser());
       } catch (error) {
-        console.log(error);
+        toast.error(error.message);
       } finally {
         setIsLoading(false);
       }

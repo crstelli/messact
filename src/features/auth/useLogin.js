@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 import { login as loginApi } from "../../lib/apiAuth";
 
@@ -13,8 +14,9 @@ function useLogin() {
     try {
       await loginApi(email, password);
       navigate("/chats");
+      toast.success("Login succesfully");
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }

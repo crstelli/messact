@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 import { signup as signupApi } from "../../lib/apiAuth";
 
@@ -13,8 +14,9 @@ function useSignup() {
     try {
       await signupApi(email, password, username);
       navigate("/login");
+      toast.success("Success! Check your email to confirm.");
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }

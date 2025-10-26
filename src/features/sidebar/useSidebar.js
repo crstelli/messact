@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import {
   createConversation,
   fetchConversations,
@@ -16,7 +17,7 @@ function useSidebar() {
         const data = await fetchConversations(setConversations);
         setConversations(data);
       } catch (error) {
-        console.log(error);
+        toast.error(error.message);
       }
     })();
   }, []);
@@ -42,8 +43,14 @@ function useSidebar() {
   }
 
   function handleAddFriend(friendId) {
-    createConversation(friendId);
-    setShowModal(false);
+    try {
+      createConversation(friendId);
+      toast.success("Friend added successfully.");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setShowModal(false);
+    }
   }
 
   return { conversations, showModal, openModal, closeModal, handleAddFriend };
