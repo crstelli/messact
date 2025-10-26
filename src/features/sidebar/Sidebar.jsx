@@ -1,14 +1,13 @@
 import { useSidebar } from "./useSidebar";
 
-import { ChatElement } from "./Conversation";
 import { AddFriendForm } from "./AddFriendForm";
+import { SearchBar } from "./SearchBar";
+import { Header } from "./Header";
+import { List } from "./List";
 
 import { Button } from "../../components/Button";
 import { Modal } from "../../components/Modal";
 import { Logo } from "../../components/Logo";
-import { SearchBar } from "./SearchBar";
-import { ConversationsHeader } from "./Header";
-import { ConversationsList } from "./List";
 
 function Sidebar({ hidden }) {
   const { conversations, showModal, openModal, closeModal, handleAddFriend } =
@@ -20,8 +19,8 @@ function Sidebar({ hidden }) {
     >
       <Logo />
       <SearchBar />
-      <ConversationsHeader length={conversations.length} />
-      <ConversationsList conversations={conversations} />
+      <Header length={conversations.length} />
+      <List conversations={conversations} />
       <Button onClick={openModal} classes={"mt-auto"}>
         Add a friend
       </Button>
