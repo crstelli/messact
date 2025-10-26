@@ -1,19 +1,11 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 
 function useHeader() {
-  const [username, setUsername] = useState("");
+  const [searchParams] = useSearchParams();
+  const username = searchParams.get("username");
+
   const { id } = useParams();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function getUsername() {
-      const data = "Global Chat";
-      setUsername(data);
-    }
-
-    getUsername();
-  }, [id]);
 
   function goBack() {
     navigate("/chats");

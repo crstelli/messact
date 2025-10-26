@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import {
   createConversation,
@@ -6,10 +7,13 @@ import {
   syncConversations,
 } from "../../lib/apiChat";
 
+import { logout } from "../../lib/apiAuth";
+
 function useSidebar() {
   const [conversations, setConversations] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const chatsChannel = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async function () {
@@ -53,7 +57,24 @@ function useSidebar() {
     }
   }
 
-  return { conversations, showModal, openModal, closeModal, handleAddFriend };
+  function handleLogout() {
+    try {
+      logout();
+      toast.success("Logged out");
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+
+  return {
+    conversations,
+    showModal,
+    openModal,
+    closeModal,
+    handleAddFriend,
+    handleLogout,
+  };
 }
 
 export { useSidebar };

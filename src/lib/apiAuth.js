@@ -9,18 +9,39 @@ export async function login(email, password) {
   if (error) throw error;
 }
 
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) throw error;
+}
+
 export async function signup(email, password, username) {
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: {
-      data: {
-        username: username,
-      },
-    },
   });
 
   if (error) throw error;
+
+  addUsername(data.user.id, username);
+}
+
+async function addUsername(id, username) {
+  const { error } = await supabase.from("usernames").insert([{ id, username }]);
+
+  if (error) throw error;
+}
+
+export async function getUsername(id) {
+  if (id === "global") return "global";
+  const { data, error } = await supabase
+    .from("usernames")
+    .select("username")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data.username;
 }
 
 export async function getUser() {

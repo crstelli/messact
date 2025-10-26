@@ -6,12 +6,19 @@ import { Header } from "./Header";
 import { List } from "./List";
 
 import { Button } from "../../components/Button";
+import { ButtonRed } from "../../components/ButtonRed";
 import { Modal } from "../../components/Modal";
 import { Logo } from "../../components/Logo";
 
 function Sidebar({ classes }) {
-  const { conversations, showModal, openModal, closeModal, handleAddFriend } =
-    useSidebar();
+  const {
+    conversations,
+    showModal,
+    openModal,
+    closeModal,
+    handleAddFriend,
+    handleLogout,
+  } = useSidebar();
 
   return (
     <div
@@ -24,6 +31,7 @@ function Sidebar({ classes }) {
       <Button onClick={openModal} classes={"mt-auto"}>
         Add a friend
       </Button>
+      <ButtonRed onClick={handleLogout}>Logout</ButtonRed>
       {showModal && (
         <Modal onClose={closeModal}>
           <AddFriendForm onSubmit={handleAddFriend} />
