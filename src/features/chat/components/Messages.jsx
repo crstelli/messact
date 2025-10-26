@@ -7,7 +7,7 @@ import { SentMessage } from "./SentMessage";
 import { Spinner } from "../../../components/Spinner";
 
 function Messages() {
-  const [isLoading, messages, user] = useMessages();
+  const [isLoading, messages, userId] = useMessages();
 
   return (
     <div className="flex grow flex-col gap-2 overflow-y-auto pr-2 pb-2">
@@ -17,7 +17,7 @@ function Messages() {
         </div>
       ) : (
         messages.map((m) => {
-          return m.sent_by === user.id ? (
+          return m.sent_by === userId ? (
             <SentMessage time={formateDate(m.created_at)} key={m.id}>
               {m.content}
             </SentMessage>

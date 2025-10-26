@@ -1,14 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
+import toast from "react-hot-toast";
+
+import { useUser } from "../../contexts/useUser";
 
 import { fetchMessages, syncMessages } from "../../lib/apiChat";
-import { getUser } from "../../lib/apiAuth";
-import toast from "react-hot-toast";
 
 function useMessages() {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [user, setUser] = useState(null);
+
+  const user = useUser();
+  const userId = user?.id;
 
   const { id: chatId } = useParams();
   const channelRef = useRef(null); // Creato in modo che React non possa mai avere 2 canali attivi contemporaneaente, prima di questo avevo una variabile let creata all'interno dell'useEffect che avrebbe potuto creare questo problema in futuro.
@@ -18,9 +21,7 @@ function useMessages() {
       try {
         setIsLoading(true);
         const messages = await fetchMessages(chatId);
-
         setMessages(messages);
-        setUser(await getUser());
       } catch (error) {
         toast.error(error.message);
       } finally {
@@ -38,7 +39,7 @@ function useMessages() {
     };
   }, [chatId]);
 
-  return [isLoading, messages, user]; // Se dovesse contenere piú valori, potrebbe aver senso ritornare un oggetto, per miglior leggibilitá e scalabilitá.
+  return [isLoading, messages, userId]; // Se dovesse contenere piú valori, potrebbe aver senso ritornare un oggetto, per miglior leggibilitá e scalabilitá.
 }
 
 export { useMessages };

@@ -1,16 +1,9 @@
-import { useEffect, useState } from "react";
-import { getUser } from "../../lib/apiAuth";
+import { useUser } from "../../contexts/useUser";
 import { Conversation } from "./Conversation";
 
 function List({ conversations }) {
-  const [userId, setUserId] = useState();
-
-  useEffect(() => {
-    (async function () {
-      const { id } = await getUser();
-      setUserId(id);
-    })();
-  }, []);
+  const user = useUser();
+  const userId = user?.id;
 
   return (
     <div className="flex grow flex-col gap-4">

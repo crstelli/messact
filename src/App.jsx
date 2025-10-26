@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { Toaster } from "react-hot-toast";
 
+import { UserProvider as UserContext } from "./contexts/UserContext";
+
 import { Main } from "./components/Main";
 import { Login } from "./features/auth/Login";
 import { SignUp } from "./features/auth/Signup";
@@ -20,15 +22,17 @@ export default function App() {
         }}
       />
       <Main>
-        <Routes>
-          <Route index element={<Navigate to="/login" />} />
+        <UserContext>
+          <Routes>
+            <Route index element={<Navigate to="/login" />} />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
 
-          <Route path="/chats" element={<Home />} />
-          <Route path="chats/:id" element={<ChatSection />} />
-        </Routes>
+            <Route path="/chats" element={<Home />} />
+            <Route path="chats/:id" element={<ChatSection />} />
+          </Routes>
+        </UserContext>
       </Main>
     </BrowserRouter>
   );
