@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
-import { Main } from "./shared/ui/Main";
-import { Chats } from "./features/chats/pages/Chats";
-import { ChatsHome } from "./features/chats/pages/ChatsHome";
+import { Main } from "./components/Main";
 
-import { Login } from "./features/auth/login/pages/Login";
-import { SignUp } from "./features/auth/signup/pages/Signup";
+import { DesktopHome } from "./features/home/DesktopHome";
+import { MobileHome } from "./features/home/MobileHome";
+
+import { Login } from "./features/auth/Login";
+import { SignUp } from "./features/auth/Signup";
 
 export default function App() {
   return (
@@ -17,8 +18,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
 
-          <Route path="/chats" element={<ChatsHome />} />
-          <Route path="/chats/:id" element={<Chats />} />
+          <Route path="/chats" element={<MobileHome />} />
+          <Route path="/chats/:id" element={<DesktopHome />} />
         </Routes>
       </Main>
     </BrowserRouter>
