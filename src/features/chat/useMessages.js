@@ -4,16 +4,12 @@ import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { useUser } from "../../contexts/useUser";
 import { fetchMessages, syncMessages } from "../../lib/apiChat";
 
 function useMessages() {
   const { id: chatId } = useParams();
   const queryClient = useQueryClient();
   const channelRef = useRef(null); // Creato in modo che React non possa mai avere 2 canali attivi contemporaneaente, prima di questo avevo una variabile let creata all'interno dell'useEffect che avrebbe potuto creare questo problema in futuro.
-
-  const user = useUser();
-  const userId = user?.id;
 
   const {
     isLoading,
@@ -37,7 +33,7 @@ function useMessages() {
     };
   }, [chatId, queryClient]);
 
-  return [isLoading, messages, error, userId];
+  return [isLoading, messages, error];
 }
 
 export { useMessages };

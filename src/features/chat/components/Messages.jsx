@@ -3,8 +3,9 @@ import { useMessages } from "../useMessages";
 
 import { ReceivedMessage } from "./ReceivedMessage";
 import { SentMessage } from "./SentMessage";
+import { useUser } from "../../../shared/hooks/useUser";
 
-import { Spinner } from "../../../components/Spinner";
+import { Spinner } from "../../../shared/components/Spinner";
 import { DateTag } from "./DateTag";
 
 import { formateDate } from "../../../utils/formatDate";
@@ -13,7 +14,9 @@ import { displayDate } from "../../../utils/displayDate";
 import { compareDate } from "../../../utils/compareDate";
 
 function Messages() {
-  const [isLoading, messages, error, userId] = useMessages();
+  const [isLoading, messages, error] = useMessages();
+  const { data: user } = useUser();
+
   if (error) toast.error(error.message);
 
   return (
@@ -38,7 +41,7 @@ function Messages() {
           return (
             <div key={m.id} className="flex flex-col">
               {tag && <DateTag>{tag}</DateTag>}
-              {m.sent_by === userId ? (
+              {m.sent_by === user.id ? (
                 <SentMessage time={formateDate(m.created_at)}>
                   {m.content}
                 </SentMessage>

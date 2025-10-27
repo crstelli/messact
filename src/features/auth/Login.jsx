@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { useLogin } from "./useLogin";
 
-import { Form } from "../../components/form/Form";
-import { Spinner } from "../../components/Spinner";
+import { Form } from "../../shared/components/form/Form";
+import { Spinner } from "../../shared/components/Spinner";
 
 function Login() {
   const [email, setEmail] = useState("giuseppe@crescitelli.it");
   const [password, setPassword] = useState("ciao1234");
 
-  const [isLoading, handleLogin] = useLogin();
+  const { isLoading, handleLogin } = useLogin();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
 
-    handleLogin(email, password);
+    handleLogin({ email, password });
     setEmail("");
     setPassword("");
   }

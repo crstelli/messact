@@ -3,9 +3,7 @@ import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import { UserProvider as UserContext } from "./contexts/UserContext";
-
-import { Main } from "./components/Main";
+import { Main } from "./shared/components/Main";
 import { Login } from "./features/auth/Login";
 import { SignUp } from "./features/auth/Signup";
 import { Home } from "./features/home/Home";
@@ -34,17 +32,15 @@ export default function App() {
           }}
         />
         <Main>
-          <UserContext>
-            <Routes>
-              <Route index element={<Navigate to="/login" />} />
+          <Routes>
+            <Route index element={<Navigate to="/login" />} />
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
 
-              <Route path="/chats" element={<Home />} />
-              <Route path="/chats/:id" element={<ChatSection />} />
-            </Routes>
-          </UserContext>
+            <Route path="/chats" element={<Home />} />
+            <Route path="/chats/:id" element={<ChatSection />} />
+          </Routes>
         </Main>
       </BrowserRouter>
     </QueryClientProvider>

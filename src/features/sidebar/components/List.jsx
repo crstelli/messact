@@ -1,9 +1,11 @@
-import { useUser } from "../../../contexts/useUser";
+import { useUser } from "../../../shared/hooks/useUser";
+import { useUsernames } from "../../../shared/hooks/useUsernames";
+
 import { Conversation } from "./Conversation";
 
-function List({ conversations }) {
-  const user = useUser();
-  const userId = user?.id;
+function List({ conversations, search }) {
+  const { data: user } = useUser();
+  const { data: usernames } = useUsernames();
 
   return (
     <div className="flex grow flex-col gap-4">
@@ -11,9 +13,17 @@ function List({ conversations }) {
       <hr className="text-slate-700" />
       {conversations?.length > 0 &&
         conversations.map((chat) => {
-          const friendId = chat.user_1 === userId ? chat.user_2 : chat.user_1;
+          const friendId = chat.user_1 === user?.id ? chat.user_2 : chat.user_1;
+          const username = usernames?.find((el) => el.id === friendId).username;
+
           return (
-            <Conversation friendId={friendId} key={chat.id} uuid={chat.id} />
+            <Conversation
+              search={search}
+              friendId={friendId}
+              key={chat.id}
+              uuid={chat.id}
+              username={username}
+            />
           );
         })}
     </div>

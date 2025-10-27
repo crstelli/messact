@@ -1,28 +1,21 @@
-import { useState } from "react";
 import { useNavigate } from "react-router";
-import toast from "react-hot-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { login as loginApi } from "../../lib/apiAuth";
+import { login } from "../../lib/apiAuth";
 
 function useLogin() {
-  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  async function handleLogin(email, password) {
-    setIsLoading(true);
-
-    try {
-      await loginApi(email, password);
+  const { isLoading, mutate: handleLogin } = useMutation({
+    mutationFn: ({ email, password }) => login({ email, password }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["loggedUser"]);
       navigate("/chats");
-      toast.success("Login succesfully");
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+    },
+  });
 
-  return [isLoading, handleLogin];
+  return { isLoading, handleLogin };
 }
 
 export { useLogin };

@@ -1,16 +1,14 @@
 import { useState } from "react";
 
-import { useUser } from "../../../contexts/useUser";
-
-import { Input } from "../../../components/form/Input";
-import { Label } from "../../../components/form/Label";
-import { Submit } from "../../../components/form/Submit";
+import { Input } from "../../../shared/components/form/Input";
+import { Label } from "../../../shared/components/form/Label";
+import { Submit } from "../../../shared/components/form/Submit";
 
 function AddFriendForm({ onSubmit }) {
   const [typing, setTyping] = useState("");
 
-  const user = useUser();
-  const userId = user?.id;
+  // const user = useUser().user;
+  // const userId = user?.id;
 
   function handleSubmit(e) {
     e.preventDefault();

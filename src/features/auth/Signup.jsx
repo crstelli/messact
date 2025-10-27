@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useSignup } from "./useSignup";
 
-import { Form } from "../../components/form/Form";
-import { Spinner } from "../../components/Spinner";
+import { Form } from "../../shared/components/form/Form";
+import { Spinner } from "../../shared/components/Spinner";
 
 function SignUp() {
   const [email, setEmail] = useState("");
