@@ -1,28 +1,22 @@
-import { useState } from "react";
 import { useNavigate } from "react-router";
-import toast from "react-hot-toast";
 
-import { signup as signupApi } from "../../lib/apiAuth";
+import { signup } from "../../lib/apiAuth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function useSignup() {
-  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  async function handleSignUp(email, password, username) {
-    setIsLoading(true);
-
-    try {
-      await signupApi(email, password, username);
+  const { isLoading, mutate: handleSignup } = useMutation({
+    mutationFn: ({ email, password, username }) =>
+      signup({ email, password, username }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["loggedUser"]);
       navigate("/login");
-      toast.success("Success! Check your email to confirm.");
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+    },
+  });
 
-  return [isLoading, handleSignUp];
+  return { isLoading, handleSignup };
 }
 
 export { useSignup };

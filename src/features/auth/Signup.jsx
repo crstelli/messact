@@ -10,14 +10,14 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [isLoading, handleSignUp] = useSignup();
+  const { isLoading, handleSignup } = useSignup();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password || !confirmPassword || !username) return;
     if (password !== confirmPassword) return;
 
-    handleSignUp(email, password, username);
+    handleSignup({ email, password, username });
 
     setEmail("");
     setUsername("");

@@ -17,11 +17,11 @@ import { Logo } from "../../shared/components/Logo";
 import { Spinner } from "../../shared/components/Spinner";
 
 function Sidebar({ classes }) {
+  const [search, setSearch] = useState("");
+
   const { conversations, error, isLoading, addFriend } = useConversations();
   const { modal, openModal, closeModal } = useModal();
   const { logout } = useLogout();
-
-  const [search, setSearch] = useState("");
 
   if (error) toast.error(error.message);
 
