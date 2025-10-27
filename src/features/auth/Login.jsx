@@ -4,11 +4,20 @@ import { useLogin } from "./useLogin";
 import { Form } from "../../shared/components/form/Form";
 import { Spinner } from "../../shared/components/Spinner";
 
+import { useQueryClient } from "@tanstack/react-query";
+import { getUsernames } from "../../lib/apiAuth";
+
 function Login() {
   const [email, setEmail] = useState("giuseppe@crescitelli.it");
   const [password, setPassword] = useState("ciao1234");
 
   const { isLoading, handleLogin } = useLogin();
+
+  const queryClient = useQueryClient();
+  queryClient.prefetchQuery({
+    queryKey: ["usernames"],
+    queryFn: getUsernames,
+  });
 
   function handleSubmit(e) {
     e.preventDefault();
