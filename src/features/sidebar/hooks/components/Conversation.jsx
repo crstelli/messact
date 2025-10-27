@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { getUsername } from "../../../lib/apiAuth";
+import { getUsername } from "../../../../lib/apiAuth";
 
 function Conversation({ uuid, friendId }) {
   const [username, setUsername] = useState();

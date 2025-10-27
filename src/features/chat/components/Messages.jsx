@@ -1,34 +1,18 @@
+import toast from "react-hot-toast";
 import { useMessages } from "../useMessages";
-import { formateDate } from "../../../utils/formatDate";
 
 import { ReceivedMessage } from "./ReceivedMessage";
 import { SentMessage } from "./SentMessage";
 
 import { Spinner } from "../../../components/Spinner";
-import toast from "react-hot-toast";
+import { DateTag } from "./DateTag";
 
-function calcDate(value) {
-  const dateObj = new Date(value);
-
-  const year = dateObj.getFullYear();
-  const month = dateObj.getMonth() + 1;
-  const day = dateObj.getDate();
-
-  const date = { year, month, day };
-  return date;
-}
-
-function displayDate(value) {
-  return `${value.day}/${value.month}/${value.year}`;
-}
-
-function compareDate(date1, date2) {
-  if (date1.year !== date2.year) return false;
-  if (date1.month !== date2.month) return false;
-  if (date1.day !== date2.day) return false;
-
-  return true;
-}
+import {
+  formateDate,
+  calcDate,
+  displayDate,
+  compareDate,
+} from "../../../utils/formatDate";
 
 function Messages() {
   const [isLoading, messages, error, userId] = useMessages();
@@ -43,12 +27,14 @@ function Messages() {
       ) : (
         messages.map((m, index, array) => {
           let tag = null;
-          if (index === 0) tag = displayDate(calcDate(m.created_at));
-          if (index > 0 && index < array.length - 1) {
-            const date_1 = calcDate(m.created_at);
-            const date_2 = calcDate(array[index - 1]?.created_at);
+          const currentDate = calcDate(m.created_at);
 
-            if (!compareDate(date_1, date_2)) tag = displayDate(date_1);
+          if (index === 0) tag = displayDate(currentDate);
+          if (index > 0 && index < array.length - 1) {
+            const prevDate = calcDate(array[index - 1]?.created_at);
+
+            if (!compareDate(currentDate, prevDate))
+              tag = displayDate(currentDate);
           }
 
           return (
@@ -72,14 +58,6 @@ function Messages() {
         })
       )}
     </div>
-  );
-}
-
-function DateTag({ children }) {
-  return (
-    <span className="m-auto my-2 rounded-full bg-slate-900 px-4">
-      {children}
-    </span>
   );
 }
 
