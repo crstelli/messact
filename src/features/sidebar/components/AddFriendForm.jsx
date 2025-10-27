@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import { useUser } from "../../contexts/useUser";
+import { useUser } from "../../../contexts/useUser";
 
-import { Input } from "../../components/form/Input";
-import { Label } from "../../components/form/Label";
-import { Submit } from "../../components/form/Submit";
+import { Input } from "../../../components/form/Input";
+import { Label } from "../../../components/form/Label";
+import { Submit } from "../../../components/form/Submit";
 
 function AddFriendForm({ onSubmit }) {
   const [typing, setTyping] = useState("");

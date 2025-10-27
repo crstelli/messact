@@ -1,45 +1,43 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "react-router";
-import toast from "react-hot-toast";
+
+import { useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { useUser } from "../../contexts/useUser";
-
 import { fetchMessages, syncMessages } from "../../lib/apiChat";
 
 function useMessages() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const { id: chatId } = useParams();
+  const queryClient = useQueryClient();
+  const channelRef = useRef(null); // Creato in modo che React non possa mai avere 2 canali attivi contemporaneaente, prima di questo avevo una variabile let creata all'interno dell'useEffect che avrebbe potuto creare questo problema in futuro.
 
   const user = useUser();
   const userId = user?.id;
 
-  const { id: chatId } = useParams();
-  const channelRef = useRef(null); // Creato in modo che React non possa mai avere 2 canali attivi contemporaneaente, prima di questo avevo una variabile let creata all'interno dell'useEffect che avrebbe potuto creare questo problema in futuro.
+  const {
+    isLoading,
+    error,
+    data: messages,
+  } = useQuery({
+    queryKey: ["messages", chatId],
+    queryFn: () => fetchMessages(chatId),
+    enabled: !!chatId,
+  });
 
   useEffect(() => {
-    (async function fetchChat() {
-      try {
-        setIsLoading(true);
-        const messages = await fetchMessages(chatId);
-        setMessages(messages);
-      } catch (error) {
-        toast.error(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, [chatId]);
-
-  useEffect(() => {
-    // Non so perché abbia dovuto creare due effetti distinti
-    channelRef.current = syncMessages(chatId, setMessages);
+    channelRef.current = syncMessages(chatId, (payload) => {
+      queryClient.setQueryData(["messages", chatId], (old) =>
+        old ? [...old, payload.new] : [payload.new],
+      );
+    });
 
     return () => {
-      if (channelRef.current) channelRef.current.unsubscribe();
+      if (channelRef.current) channelRef.current?.unsubscribe?.();
     };
-  }, [chatId]);
+  }, [chatId, queryClient]);
 
-  return [isLoading, messages, userId]; // Se dovesse contenere piú valori, potrebbe aver senso ritornare un oggetto, per miglior leggibilitá e scalabilitá.
+  return [isLoading, messages, error, userId];
 }
 
 export { useMessages };

@@ -1,6 +1,7 @@
 import { supabase } from "./supabase";
-import { getUser } from "./apiAuth";
+import { getUser, getUsername } from "./apiAuth";
 
+// Messages
 export async function fetchMessages(chatId) {
   if (chatId === "global") {
     const { data, error } = await supabase
@@ -22,40 +23,23 @@ export async function fetchMessages(chatId) {
   }
 }
 
-export function syncMessages(chatId, setChat) {
-  if (chatId === "global") {
-    return supabase
-      .channel("custom-all-channel")
-      .on(
-        "postgres_changes",
-        { event: "insert", schema: "public", table: "global" },
-        (payload) => {
-          setChat((c) => [...c, payload.new]);
-        },
-      )
-      .subscribe();
-  } else {
-    return supabase
-      .channel("custom-all-channel")
-      .on(
-        "postgres_changes",
-        {
-          event: "insert",
-          schema: "public",
-          table: "messages",
-          filter: `conversation=eq.${chatId}`,
-        },
-        (payload) => {
-          setChat((c) => [...c, payload.new]);
-        },
-      )
-      .subscribe();
-  }
+export function syncMessages(chatId, fn) {
+  const table = chatId === "global" ? "global" : "messages";
+  const filter = chatId === "global" ? undefined : `conversation=eq.${chatId}`;
+
+  return supabase
+    .channel("custom-all-channel")
+    .on(
+      "postgres_changes",
+      { event: "insert", schema: "public", table, filter },
+      fn,
+    )
+    .subscribe();
 }
 
 export async function sendMessage(content, chatId) {
   const user = await getUser();
-  const username = user.user_metadata.username;
+  const username = await getUsername(user.id);
 
   if (chatId === "global") {
     const { error } = await supabase
@@ -80,6 +64,7 @@ export async function sendMessage(content, chatId) {
   }
 }
 
+// Conversations
 export async function fetchConversations() {
   const userId = (await getUser()).id;
 
@@ -93,7 +78,7 @@ export async function fetchConversations() {
   return data;
 }
 
-export async function syncConversations(setChats) {
+export async function syncConversations(fn) {
   const userId = (await getUser()).id;
   const channel = supabase.channel("custom-all-channel");
 
@@ -105,9 +90,7 @@ export async function syncConversations(setChats) {
       table: "conversations",
       filter: `user_1=eq.${userId}`,
     },
-    (payload) => {
-      setChats((c) => [...c, payload.new]);
-    },
+    fn,
   );
 
   channel.on(
@@ -118,9 +101,7 @@ export async function syncConversations(setChats) {
       table: "conversations",
       filter: `user_2=eq.${userId}`,
     },
-    (payload) => {
-      setChats((c) => [...c, payload.new]);
-    },
+    fn,
   );
 
   return channel.subscribe();

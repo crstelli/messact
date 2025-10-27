@@ -16,4 +16,6 @@ function UserProvider({ children }) {
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }
 
+// Non cambia lo il context quando fai logout, anche se cambi account
+
 export { UserProvider, UserContext };

@@ -5,9 +5,11 @@ import { ReceivedMessage } from "./ReceivedMessage";
 import { SentMessage } from "./SentMessage";
 
 import { Spinner } from "../../../components/Spinner";
+import toast from "react-hot-toast";
 
 function Messages() {
-  const [isLoading, messages, userId] = useMessages();
+  const [isLoading, messages, error, userId] = useMessages();
+  if (error) toast.error(error.message);
 
   return (
     <div className="flex grow flex-col gap-2 overflow-y-auto pr-2 pb-2">
