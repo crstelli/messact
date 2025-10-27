@@ -7,12 +7,10 @@ import { SentMessage } from "./SentMessage";
 import { Spinner } from "../../../components/Spinner";
 import { DateTag } from "./DateTag";
 
-import {
-  formateDate,
-  calcDate,
-  displayDate,
-  compareDate,
-} from "../../../utils/formatDate";
+import { formateDate } from "../../../utils/formatDate";
+import { calcDate } from "../../../utils/calcDate";
+import { displayDate } from "../../../utils/displayDate";
+import { compareDate } from "../../../utils/compareDate";
 
 function Messages() {
   const [isLoading, messages, error, userId] = useMessages();
@@ -38,22 +36,21 @@ function Messages() {
           }
 
           return (
-            <>
-              {tag && <DateTag key={index}>{tag}</DateTag>}
+            <div key={m.id} className="flex flex-col">
+              {tag && <DateTag>{tag}</DateTag>}
               {m.sent_by === userId ? (
-                <SentMessage time={formateDate(m.created_at)} key={m.id}>
+                <SentMessage time={formateDate(m.created_at)}>
                   {m.content}
                 </SentMessage>
               ) : (
                 <ReceivedMessage
                   time={formateDate(m.created_at)}
                   author={m.sent_by_username}
-                  key={m.id}
                 >
                   {m.content}
                 </ReceivedMessage>
               )}
-            </>
+            </div>
           );
         })
       )}
