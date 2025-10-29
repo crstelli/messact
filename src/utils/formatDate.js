@@ -1,4 +1,4 @@
-export function formateDate(time) {
+export function formatDate(time) {
   const date = new Date(time);
   const formatter = new Intl.DateTimeFormat("it-IT", {
     hour: "2-digit",

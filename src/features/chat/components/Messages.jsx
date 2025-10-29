@@ -8,7 +8,7 @@ import { useUser } from "../../../shared/hooks/useUser";
 import { Spinner } from "../../../shared/components/Spinner";
 import { DateTag } from "./DateTag";
 
-import { formateDate } from "../../../utils/formatDate";
+import { formatDate } from "../../../utils/formatDate";
 import { calcDate } from "../../../utils/calcDate";
 import { displayDate } from "../../../utils/displayDate";
 import { compareDate } from "../../../utils/compareDate";
@@ -31,7 +31,7 @@ function Messages() {
           const currentDate = calcDate(m.created_at);
 
           if (index === 0) tag = displayDate(currentDate);
-          if (index > 0 && index < array.length - 1) {
+          if (index > 0 && index < array.length) {
             const prevDate = calcDate(array[index - 1]?.created_at);
 
             if (!compareDate(currentDate, prevDate))
@@ -42,12 +42,12 @@ function Messages() {
             <div key={m.id} className="flex flex-col">
               {tag && <DateTag>{tag}</DateTag>}
               {m.sent_by === user.id ? (
-                <SentMessage time={formateDate(m.created_at)}>
+                <SentMessage time={formatDate(m.created_at)}>
                   {m.content}
                 </SentMessage>
               ) : (
                 <ReceivedMessage
-                  time={formateDate(m.created_at)}
+                  time={formatDate(m.created_at)}
                   author={m.sent_by_username}
                 >
                   {m.content}

@@ -49,7 +49,9 @@ export async function sendMessage(content, chatId) {
 
     if (error) throw error;
   } else {
-    const { error } = await supabase
+    let error;
+    let data;
+    ({ error } = await supabase
       .from("messages")
       .insert([
         {
@@ -58,7 +60,17 @@ export async function sendMessage(content, chatId) {
           sent_by: user.id,
         },
       ])
-      .select();
+      .select());
+
+    ({ error, data } = await supabase
+      .from("conversations")
+      .update({
+        last_active: new Date().toISOString().toLocaleString("it-IT"),
+      })
+      .eq("id", chatId)
+      .select());
+
+    console.log(data);
 
     if (error) throw error;
   }
@@ -71,6 +83,7 @@ export async function fetchConversations() {
   const { data, error } = await supabase
     .from("conversations")
     .select("*")
+    .order("last_active", { ascending: false })
     .or(`user_1.eq.${userId}, user_2.eq.${userId}`);
 
   if (error) throw error;
